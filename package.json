@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/captainjoker/packA/issues"
   },
-  "homepage": "https://github.com/captainjoker/packA#readme"
+  "homepage": "https://github.com/captainjoker/packA#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
 }
