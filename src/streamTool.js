@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 const {Transform} = require('stream');
-const config = require('../config.js');
-const iconv = require('iconv-lite');
+// const config = require('../config.js');
+// const iconv = require('iconv-lite');
 
-function MyStream(output_path,success,fail) {
+function MyStream(output_path, success, fail) {
     //目标流
     let write_stream = null,
         middle_layers = [],
@@ -42,7 +42,7 @@ function MyStream(output_path,success,fail) {
         write_stream.on('finish', function () {
             console.log('文件拷贝完成');
             let success_type = Object.prototype.toString.call(success);
-            if(success_type === '[object Function]'){
+            if (success_type === '[object Function]') {
                 success();
             }
             console.log(`当前时间${Date.now()}`)
@@ -50,7 +50,7 @@ function MyStream(output_path,success,fail) {
         write_stream.on('error', function (error) {
             console.error('write_stream error', error.message);
             let fail_type = Object.prototype.toString.call(fail);
-            if(fail_type === '[object Function]'){
+            if (fail_type === '[object Function]') {
                 fail();
             }
         });
@@ -121,34 +121,34 @@ function MyStream(output_path,success,fail) {
 
 
     /*//获取stream转化流
-    function get_transform(middle_layer, file) {
-        return new Transform({
-            transform(chunk, encoding, callback) {
-                let result = middle_layer(chunk.toString(), file);
-                this.push(result);
-                callback();
-            }
-        });
-    }*/
+     function get_transform(middle_layer, file) {
+     return new Transform({
+     transform(chunk, encoding, callback) {
+     let result = middle_layer(chunk.toString(), file);
+     this.push(result);
+     callback();
+     }
+     });
+     }*/
 
     /*//获取stream转化流
-    function get_transform(middle_layer, file) {
-        let chunk_string = [];
-        return new Transform({
-            transform(chunk, encoding, callback) {
-                // let result = middle_layer(chunk.toString(), file);
-                chunk_string.push(chunk.toString());
-                // this.push(result);
-                callback();
-            },
-            flush(callback) {
-                let result = middle_layer(chunk_string.join(''),file);
-                this.push(result);
-                chunk_string = [];
-                callback();
-            }
-        });
-    }*/
+     function get_transform(middle_layer, file) {
+     let chunk_string = [];
+     return new Transform({
+     transform(chunk, encoding, callback) {
+     // let result = middle_layer(chunk.toString(), file);
+     chunk_string.push(chunk.toString());
+     // this.push(result);
+     callback();
+     },
+     flush(callback) {
+     let result = middle_layer(chunk_string.join(''),file);
+     this.push(result);
+     chunk_string = [];
+     callback();
+     }
+     });
+     }*/
 
     //获取stream转化流
     function get_transform(middle_layer, file) {
@@ -198,4 +198,9 @@ MyStream.write_file = function (file_path, output_path, options = {}) {
         }
     });
 };
+
+MyStream.add = function (a, b) {
+    return a + b;
+};
+
 module.exports = MyStream;
